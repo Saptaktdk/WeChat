@@ -64,8 +64,8 @@ const authUser = asyncHandler(async (req, res) => {
             token: generateToken(user._id),
             message: `User logged in successfully`,
         });
-    } else if ( password != user.password || email != user.email) {
-        res.status(400).json({
+    } else if ( password !== user.password || email !== user.email) {
+        res.status(401).json({
             message: `Invalid credentials. Please try again`
         });
     } else {
@@ -73,6 +73,22 @@ const authUser = asyncHandler(async (req, res) => {
             message:`User not found`
         });
     }
-})
+});
 
-module.exports = { registerUser, authUser };
+//? /api/user?search=username
+const allUsers = asyncHandler(async (req, res) => {
+    const keyWord = req.query.search 
+        ?  {
+                $or: [
+                    {name: {$regex: req.query.search, $options: "i"} },
+                    {email: {$regex: req.query.search, $options: "i"} }
+                ],
+            }
+        : {};
+    const users = await User
+                    .find(keyWord)
+                    .find({_id:{$ne:req.user._id} });
+    res.send(users);
+}); 
+
+module.exports = { registerUser, authUser, allUsers };

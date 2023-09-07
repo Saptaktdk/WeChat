@@ -2,6 +2,8 @@ const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require("./config/db");
 const userRouter = require("./routes/userRouter");
+const chatRouter = require("./routes/chatRouter");
+const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
 dotenv.config();
@@ -14,6 +16,10 @@ app.use(express.json());
 
 //? API routes
 app.use('/api/user', userRouter);
+app.use('/api/chat', chatRouter);
+
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
