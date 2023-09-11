@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
 import { Box, Text } from "@chakra-ui/layout";
-import { Tooltip, Menu, MenuButton } from "@chakra-ui/react"
-import { Button } from "@chakra-ui/button"
-import { BellIcon, ChevronDownIcon, SearchIcon } from "@chakra-ui/icons"
+import { 
+    Tooltip, 
+    Menu, 
+    MenuButton, 
+    MenuList,
+    MenuItem,
+    MenuDivider
+ } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/button";
+import { BellIcon, ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
+import { Avatar } from "@chakra-ui/avatar";
+import { ChatState } from "../../context/ChatProvider";
+import ProfileModal from "./ProfileModal";
 
 
 const SideDrawer = () => {
@@ -11,6 +21,8 @@ const SideDrawer = () => {
     const [searchResult, setSearchResult] = useState([]);
     const [ loading, setLoading] = useState(false);
     const [loadingChat, setLoadingChat] = useState();
+
+    const { user } = ChatState();
 
     return <>
         <Box
@@ -50,6 +62,24 @@ const SideDrawer = () => {
                     <MenuButton p={1}>
                         <BellIcon fontSize="2xl" m={1}/>
                     </MenuButton>
+                </Menu>
+                <Menu>
+                    <MenuButton
+                        as={Button}
+                        rightIcon={<ChevronDownIcon/>}>
+                            <Avatar 
+                                size="sm" 
+                                cursor="pointer" 
+                                name={user.name}
+                                src={user.pic}/>
+                    </MenuButton>
+                    <MenuList>
+                        <ProfileModal>
+                        <MenuItem>My profile</MenuItem>
+                        </ProfileModal>
+                        <MenuDivider />
+                        <MenuItem>Logout</MenuItem>
+                    </MenuList>
                 </Menu>
             </div>
         </Box>
