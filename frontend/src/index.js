@@ -8,13 +8,13 @@ import ChatProvider from './context/ChatProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <ChatProvider>
-    <BrowserRouter>
-      <ChakraProvider>
-        <App />
-      </ChakraProvider>
-    </BrowserRouter>
-  </ChatProvider>
+  <BrowserRouter>
+    <ChatProvider>
+        <ChakraProvider>
+          <App />
+        </ChakraProvider>
+    </ChatProvider>
+  </BrowserRouter>
 );
 
 

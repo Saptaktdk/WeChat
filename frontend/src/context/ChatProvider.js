@@ -2,7 +2,7 @@ import {
     createContext, 
     useContext, 
     useState,
-    useEffect 
+    useEffect, 
 } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -10,20 +10,32 @@ import { useHistory } from 'react-router-dom';
 const ChatContext = createContext();
 
 const ChatProvider = ({children}) => {
-    const [user, setUser] = useState();
-    const history = useHistory();
+    const [user, setUser] = useState(null);
+    const history = useHistory("/chats");
 
     useEffect(() => {
       const userInfo = JSON.parse(localStorage.getItem("userInfo"));
       setUser(userInfo);
+      console.log("userInfo: " , userInfo);
 
       if (!userInfo) {
         history.push('/');
       }
     }, [history]);
+
+    /* const updateUser = () => {
+        const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        setUser(userInfo);
+        console.log("userInfo", userInfo);
+
+        if (!userInfo) {
+            history.push('/');
+        }
+      }; */
+    
     
     return (
-        <ChatContext.Provider value={{ user, setUser }}>
+        <ChatContext.Provider value={{ user }}>
             {children}
         </ChatContext.Provider>
     )
