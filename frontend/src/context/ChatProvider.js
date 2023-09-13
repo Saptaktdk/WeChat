@@ -11,7 +11,7 @@ const ChatContext = createContext();
 
 const ChatProvider = ({children}) => {
     const [user, setUser] = useState(null);
-    const history = useHistory("/chats");
+    const history = useHistory();
 
     useEffect(() => {
       const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -21,18 +21,7 @@ const ChatProvider = ({children}) => {
       if (!userInfo) {
         history.push('/');
       }
-    }, [history]);
-
-    /* const updateUser = () => {
-        const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-        setUser(userInfo);
-        console.log("userInfo", userInfo);
-
-        if (!userInfo) {
-            history.push('/');
-        }
-      }; */
-    
+    }, [history]);    
     
     return (
         <ChatContext.Provider value={{ user }}>
